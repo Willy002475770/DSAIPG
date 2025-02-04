@@ -120,9 +120,9 @@ public class ThreeSumBenchmark {
             }
         }
 
-        double averageTime = totalTime / runs;  // 平均時間 (毫秒)
+        double averageTime = totalTime / runs;
 
-        
+
         for (TimeLogger logger : timeLoggers) {
             logger.log(description, averageTime, n);
         }
