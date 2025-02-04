@@ -18,11 +18,12 @@ public class ThreeSumQuadraticTest {
     public void testGetTriplesWithValidTriplets() {
         int[] inputArray = {-1, 0, 1, 2, -1, -4};
         ThreeSum threeSum = new ThreeSumQuadratic(inputArray);
+        Arrays.sort(inputArray);
 
         Triple[] result = threeSum.getTriples();
 
         Triple[] expected = {
-                new Triple(-1, 2, -1),
+                new Triple(-1, -1, 2),
                 new Triple(-1, 0, 1)
 
         };
