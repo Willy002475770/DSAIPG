@@ -62,7 +62,23 @@ class ThreeSumQuadrithmic implements ThreeSum {
      */
     Triple getTriple(int i, int j) {
         // TO BE IMPLEMENTED  : use binary search to find the third element
-        // END SOLUTION
+
+        int left = j+1; // i<j<k
+        int right = length-1;
+        int target = -a[i] - a[j];
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (target == a[mid]){
+                return new Triple(a[i], a[j], a[mid]);
+            }
+            else if (target < a[mid]) {
+                left = mid + 1;
+            }
+            else{
+                right = mid - 1;
+            }
+        }
         return null;
     }
 

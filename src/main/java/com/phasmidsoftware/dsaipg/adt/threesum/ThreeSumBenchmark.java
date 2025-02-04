@@ -5,6 +5,7 @@
 package com.phasmidsoftware.dsaipg.adt.threesum;
 
 import com.phasmidsoftware.dsaipg.util.Benchmark_Timer;
+import com.phasmidsoftware.dsaipg.util.Stopwatch;
 import com.phasmidsoftware.dsaipg.util.TimeLogger;
 import com.phasmidsoftware.dsaipg.util.Utilities;
 
@@ -103,7 +104,28 @@ public class ThreeSumBenchmark {
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
         // TO BE IMPLEMENTED 
-throw new RuntimeException("implementation missing");
+        System.out.println(description + " benchmark for n = " + n);
+        double totalTime = 0.0;
+
+        for (int i = 0; i < runs; i++) {
+
+            int[] testData = supplier.get();
+
+            try (Stopwatch sw = new Stopwatch()) {
+
+                function.accept(testData);
+
+                long elapsed = sw.lap();
+                totalTime += elapsed;
+            }
+        }
+
+        double averageTime = totalTime / runs;  // 平均時間 (毫秒)
+
+        
+        for (TimeLogger logger : timeLoggers) {
+            logger.log(description, averageTime, n);
+        }
     }
 
     /**
