@@ -61,6 +61,19 @@ public class Benchmark_Timer<T> implements Benchmark<T> {
         return new Timer().repeat(m, false, supplier, function, fPre, fPost);
     }
 
+    public double runFromSupplier_withRunTime(Supplier<T> supplier, int m, int runTime) {
+        logger.info("Begin run: " + description + " with " + formatWhole(runTime) + " runs");
+        final Function<T, T> function = t -> {
+            fRun.accept(t);
+            return t;
+        };
+        // Warmup phase
+        new Timer().repeat(getWarmupRuns(m), true, supplier, function, fPre, null);
+
+        // Timed phase
+        return new Timer().repeat(runTime, false, supplier, function, fPre, fPost);
+    }
+
     /**
      * Constructor for a Benchmark_Timer with the option of specifying all three functions.
      *

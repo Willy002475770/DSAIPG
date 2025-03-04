@@ -1,8 +1,6 @@
-/*
- * Copyright (c) 2024. Robin Hillyard
- */
+package com.phasmidsoftware.dsaipg;
 
-package com.phasmidsoftware.dsaipg.adt.pq;
+import com.phasmidsoftware.dsaipg.adt.pq.PQException;
 
 import java.util.*;
 import java.util.function.BiPredicate;
@@ -25,7 +23,7 @@ import java.util.function.Consumer;
  *
  * @param <K>
  */
-public class PriorityQueue<K> implements Iterable<K> {
+public class PriorityQueue4ary<K> implements Iterable<K> {
 
     /**
      * Primary constructor that takes the max value, an actual array of elements, and a comparator.
@@ -37,7 +35,7 @@ public class PriorityQueue<K> implements Iterable<K> {
      * @param comparator a comparator for the type K
      * @param floyd      true if we use Floyd's trick
      */
-    public PriorityQueue(boolean max, Object[] binHeap, int first, int last, Comparator<K> comparator, boolean floyd) {
+    public PriorityQueue4ary(boolean max, Object[] binHeap, int first, int last, Comparator<K> comparator, boolean floyd) {
         this.max = max;
         this.first = first;
         this.comparator = comparator;
@@ -56,7 +54,7 @@ public class PriorityQueue<K> implements Iterable<K> {
      * @param max        whether or not this is a Maximum Priority Queue as opposed to a Minimum PQ.
      * @param comparator a comparator for the type K
      */
-    public PriorityQueue(int n, int first, boolean max, Comparator<K> comparator, boolean floyd) {
+    public PriorityQueue4ary(int n, int first, boolean max, Comparator<K> comparator, boolean floyd) {
 
         // NOTE that we reserve the first element of the binary heap, so the length must be n+1, not n
         this(max, new Object[n + first], first, 0, comparator, floyd);
@@ -69,7 +67,7 @@ public class PriorityQueue<K> implements Iterable<K> {
      * @param max        whether or not this is a Maximum Priority Queue as opposed to a Minimum PQ.
      * @param comparator a comparator for the type K
      */
-    public PriorityQueue(int n, boolean max, Comparator<K> comparator, boolean floyd) {
+    public PriorityQueue4ary(int n, boolean max, Comparator<K> comparator, boolean floyd) {
 
         // NOTE that we reserve the first element of the binary heap, so the length must be n+1, not n
         this(n, 1, max, comparator, floyd);
@@ -82,7 +80,7 @@ public class PriorityQueue<K> implements Iterable<K> {
      * @param max        whether or not this is a Maximum Priority Queue as opposed to a Minimum PQ.
      * @param comparator a comparator for the type K
      */
-    public PriorityQueue(int n, boolean max, Comparator<K> comparator) {
+    public PriorityQueue4ary(int n, boolean max, Comparator<K> comparator) {
 
         // NOTE that we reserve the first element of the binary heap, so the length must be n+1, not n
         this(n, 1, max, comparator, false);
@@ -94,7 +92,7 @@ public class PriorityQueue<K> implements Iterable<K> {
      * @param n          the desired maximum capacity.
      * @param comparator a comparator for the type K
      */
-    public PriorityQueue(int n, Comparator<K> comparator) {
+    public PriorityQueue4ary(int n, Comparator<K> comparator) {
         this(n, 1, true, comparator, true);
     }
 
@@ -125,7 +123,7 @@ public class PriorityQueue<K> implements Iterable<K> {
         } // if we are already at capacity, then we arbitrarily trash the least eligible element
         // (even if it's more eligible than key).
         binHeap[++last + first - 1] = key; // insert the key into the binary heap just after the last element
-        swimUp(last + first - 1); // reorder the binary heap
+        swimUp_4ary(last + first - 1); // reorder the binary heap
     }
 
     /**
@@ -309,7 +307,7 @@ public class PriorityQueue<K> implements Iterable<K> {
 
     void swimUp_4ary(int k) {
         int i = k;
-        // 注意 parent_idx_4ary(i) 取得 4-ary 父節點
+
         while (i > first && unordered(parent_idx_4ary(i), i)) {
             swap(i, parent_idx_4ary(i));
             i = parent_idx_4ary(i);
@@ -354,13 +352,14 @@ public class PriorityQueue<K> implements Iterable<K> {
         s1[4] = "E";
         boolean max = true;
         boolean floyd = true;
-        Iterable<String> PQ_string_floyd = new PriorityQueue<>(max, s1, 1, 5, Comparator.comparing(String::toString), floyd);
-        Iterable<String> PQ_string_nofloyd = new PriorityQueue<>(max, s1, 1, 5, Comparator.comparing(String::toString), false);
+        Iterable<String> PQ_string_floyd = new com.phasmidsoftware.dsaipg.adt.pq.PriorityQueue<>(max, s1, 1, 5, Comparator.comparing(String::toString), floyd);
+        Iterable<String> PQ_string_nofloyd = new com.phasmidsoftware.dsaipg.adt.pq.PriorityQueue<>(max, s1, 1, 5, Comparator.comparing(String::toString), false);
         Integer[] s2 = new Integer[5]; //created an Integer type array with size 5
         for (int i = 0; i < 5; i++) {
             s2[i] = i;
         }
-        Iterable<Integer> PQ_int_floyd = new PriorityQueue<>(max, s2, 1, 5, Comparator.comparing(Integer::intValue), floyd);
-        Iterable<Integer> PQ_int_nofloyd = new PriorityQueue<>(max, s2, 1, 5, Comparator.comparing(Integer::intValue), false);
+        Iterable<Integer> PQ_int_floyd = new com.phasmidsoftware.dsaipg.adt.pq.PriorityQueue<>(max, s2, 1, 5, Comparator.comparing(Integer::intValue), floyd);
+        Iterable<Integer> PQ_int_nofloyd = new com.phasmidsoftware.dsaipg.adt.pq.PriorityQueue<>(max, s2, 1, 5, Comparator.comparing(Integer::intValue), false);
     }
 }
+
